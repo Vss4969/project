@@ -1,0 +1,126 @@
+
+.main-wrapper{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+    margin-right: 100px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+}
+
+.main-wrapper h1{
+    text-align: center;
+    font-size: 50px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.problem-list{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.problem-container{
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+}
+
+.problem-id{
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+
+}
+
+.problem-title{
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+
+}
+
+/* Problem page and compiler */
+.problem-page-wrapper{
+    
+}
+
+/* Divided in to two vertical components: problem-statement-wrapper(on-left) and others components(on-right) */
+.problem-page-container{
+    
+
+}
+
+/*Left vertical component contains title and description of problem statement */
+.problem-statement-wrapper{
+
+}
+
+.problem-statement{
+
+}
+
+.problem-statement-title{
+
+}
+
+.problem-statement-description{
+
+}
+
+/*Below components are part of right vertical component, starting with the code box(text box) to write code*/
+.code-box-wrapper{
+
+}
+
+.code-box{
+
+}
+
+/*Below the code box we have three boxes with scrollable options those are input box, output box and verdict box*/
+.input-box-wrapper{
+
+}
+
+.input-box{
+
+}
+
+.output-box-wrapper{
+
+}
+
+.output-box{
+    
+}
+
+.verdict-box-wrapper{
+
+}
+
+.verdict-box{
+
+}
+
+/*Bottom og the right vertical container we have two buttons in single line adjacent, one is run and other is submit*/
+.buttons-wrapper{
+
+}
+
+.run-button{
+
+}
+
+.submit-button{
+    
+}

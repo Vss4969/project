@@ -1,23 +1,16 @@
-import './problem.css';
+import { Route, Routes } from 'react-router-dom';
+import { ProblemList } from './pages/ProblemsList';
+import { P1 } from './pages/P1';
+import { P2 } from './pages/P2';
 
 function Problem() {
   return (
     <>
-    <div className="main-wrapper">
-      <div className="main-container">
-        <h1>Problems</h1>
-        <div className="problems-list">
-          <div className="problem-container">
-            <div className="problem-id">
-              1.
-            </div>
-            <div className="problem-title">
-              Two Sum
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      <Routes>
+        <Route path='/' element={<ProblemList/>}/>
+        <Route path='/P1' element={<P1/>}/>
+        <Route path='/P2' element={<P2/>}/>
+      </Routes>
     </>
   );
 }
