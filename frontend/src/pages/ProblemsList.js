@@ -32,25 +32,31 @@ export function ProblemList() {
               <div className="problem-id">
                 3.
               </div>
+              <Link to="/P3">
               <div className="problem-title">
                 Palindrome Number
               </div>
+              </Link>
             </div>
             <div className="problem-container">
               <div className="problem-id">
                 4.
               </div>
+              <Link to="/P4">
               <div className="problem-title">
                 Add Two Numbers
               </div>
+              </Link>
             </div>
             <div className="problem-container">
               <div className="problem-id">
                 5.
               </div>
+              <Link to="/P5">
               <div className="problem-title">
                 Merge k Sorted Lists
               </div>
+              </Link>
             </div>
           </div>
         </div>
