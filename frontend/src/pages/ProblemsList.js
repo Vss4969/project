@@ -20,10 +20,10 @@ export function ProblemList() {
         <div className="main-container">
           <h1>Problems</h1>
           <div className="problems-list">
-            {problems.map((problem, index) => (
-              <div className="problem-container" key={index}>
-                <div className="problem-id">{index + 1}.</div>
-                <Link to={`/P${index + 1}`}>
+            {problems.map((problem) => (
+              <div className="problem-container" key={problem.problem_id}>
+                <div className="problem-id">{problem.problem_id}.</div>
+                <Link to={`/problem/${problem.problem_id}`}>
                   <div className="problem-title">{problem.title}</div>
                 </Link>
               </div>
