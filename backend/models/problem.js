@@ -1,29 +1,22 @@
 import mongoose from 'mongoose';
 
-const problemSchema = new mongoose.Scheme({
+const problemSchema = new mongoose.Schema({
     problem_id: {
         type: Number,
-        required: true,
-        unique: true
     },
-
     title: {
         type: String,
-        required: true
     },
-
     statement: {
         description: {
             type: String,
-            required: true
         },
         constraints: {
             type: String,
-            required: true
         },
-    }
+    },
 });
 
-const  Problem = mongoose.model('Problem', problemSchema);
+const  Problem = mongoose.model('problem_set', problemSchema);
 
 export default Problem;

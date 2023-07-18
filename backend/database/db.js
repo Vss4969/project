@@ -8,9 +8,11 @@ const DBConnection = async () => {
     try {
         await mongoose.connect(MONGO_URI, {
             useNewUrlParser: true,
+            dbName: 'oj_project',
         });
         console.log("Connected to DB")
-    } catch (error) {
+    } 
+    catch (error) {
         console.log("Error while connecting to DB", error.message);
     }
 };

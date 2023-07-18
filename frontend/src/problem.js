@@ -5,6 +5,10 @@ import { P2 } from './pages/P2';
 import { P3 } from './pages/P3';
 import { P4 } from './pages/P4';
 import { P5 } from './pages/P5';
+import { getList } from './service/api';
+
+const response = await getList({});
+console.log(response);
 
 function Problem() {
   return (
