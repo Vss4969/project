@@ -20,3 +20,12 @@ export const getProblemDetails = async (problemId) => {
         console.log("Error while calling APIp", error.message);
     }
 };
+
+export const submitCode = async (payload) => {
+    try {
+        const response = await axios.post(`${API_URI}/run`, payload);
+        return response.data;
+    } catch (error) {
+        console.log("Error while calling APIs", error.message);
+    }
+}

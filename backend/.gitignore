@@ -26,3 +26,4 @@ yarn-error.log*
 # Avoid submissions and compiles directories
 /submissions
 /compiles
+/user_workspace

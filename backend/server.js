@@ -2,8 +2,8 @@ import express from 'express';
 import router from './routes/routes.js';
 import DBConnection from './database/db.js';
 import cors from 'cors';
-import generateFile from './generateFile.js';
-import compileFile from './compileCodes.js';
+import generateFile from './utils/generateFile.js';
+import compileFile from './utils/compileFiles.js';
 const app = express();
 
 
@@ -28,7 +28,7 @@ app.post("/run", async (req, res) => {
     try {
         const filePath = await generateFile('cpp', code);
         const output = await compileFile(filePath);
-        console.log(output);
+        // console.log(output);
         res.json({filePath, output});
     } catch (error) {
         return res.status(500).json({success: false, error: error.message});

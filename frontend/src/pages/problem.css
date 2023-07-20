@@ -124,7 +124,22 @@
     padding: 10px;
     box-sizing: border-box;
     font-family: 'Consolas', monospace;
-    
+    border: solid 1px #000;
+}
+
+.output-box-textarea {
+    display: inline-block;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    resize: none;
+    /* overflow: auto; */
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: 'Consolas', monospace;
+    border: solid 1px #000;
 }
 
 /*Below the code box we have three boxes with scrollable options those are input box, output box and verdict box*/

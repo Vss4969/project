@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dirCompile = path.join(__dirname, 'compiles');
+const dirCompile = path.join(__dirname, '../user_workspace/compiles');
 
 if (!fs.existsSync(dirCompile)) {
     fs.mkdirSync(dirCompile, { recursive: true });

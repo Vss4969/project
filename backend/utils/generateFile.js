@@ -7,7 +7,7 @@ import { fileURLToPath } from 'url';
 // Doe example E:\Projects\NodeJS\backend + \submissions = E:\Projects\NodeJS\backend\submissions
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dirSubmissions = path.join(__dirname, 'submissions');
+const dirSubmissions = path.join(__dirname, '../user_workspace/submissions');
 
 //What if the directory doesn't exist?
 if (!fs.existsSync(dirSubmissions)) {
@@ -23,4 +23,6 @@ const generateFile = async(language, code) => {
 };
 
 export default generateFile;
+
+
 
