@@ -23,9 +23,20 @@ export const getProblemDetails = async (problemId) => {
 
 export const submitCode = async (payload) => {
     try {
-        const response = await axios.post(`${API_URI}/run`, payload);
+        console.log("payload: ", payload);        
+        const response = await axios.post(`${API_URI}/submit`, payload);
+        console.log("response: ", response);
         return response.data;
     } catch (error) {
         console.log("Error while calling APIs", error.message);
+    }
+}
+
+export const runCode = async (payload) => {
+    try {
+        const response = await axios.post(`${API_URI}/run`, payload);
+        return response.data;
+    } catch (error) {
+        console.log("Error while calling APIr", error.message);
     }
 }

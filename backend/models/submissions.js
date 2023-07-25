@@ -7,6 +7,11 @@ const submissionSchema = new mongoose.Scheme({
         unique: true
     },
 
+    submission_file: {
+        type: String,
+        required: true
+    },
+
     submission_time: {
         type: Date,
         required: true

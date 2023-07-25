@@ -15,10 +15,10 @@ if (!fs.existsSync(dirCompile)) {
 
 const compileFile = async(filePath) => {
     const jobId = path.basename(filePath).split('.')[0];
-    const outPath = path.join(dirCompile, `${jobId}.exe`);
+    const execPath = path.join(dirCompile, `${jobId}.exe`);
     return new Promise((resolve, reject) => {
         exec(
-            `g++ ${filePath} -o ${outPath} && cd ${dirCompile} && .\\${jobId}.exe`,
+            `g++ ${filePath} -o ${execPath}`,
             (error, stdout, stderr) => {
                 if(error){
                     reject({error, stderr});
@@ -26,7 +26,7 @@ const compileFile = async(filePath) => {
                 if(stderr){
                     reject(stderr);
                 }
-                resolve(stdout);
+                resolve(execPath);
             }
         );
     });

@@ -8,4 +8,4 @@ export const getList = async (request, response) => {
         console.log("Error in getList: ", error.message);
         response.status(500).json({error : error.message});
     }
-}  
+}

@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
-import { getProblemDetails, submitCode} from '../service/api';
+import { getProblemDetails, submitCode, runCode} from '../service/api';
 import { useParams, useNavigate } from 'react-router-dom';
 
 export function PageTemplate() {
     const { problemId } = useParams();
     const [problem, setProblem] = useState({});
     const navigate = useNavigate();
+
     const [code, setCode] = useState('');
+    const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
+    const [verdict, setVerdict] = useState('');
 
     useEffect(() => {
         async function fetchProblemDetails() {
@@ -39,15 +42,25 @@ export function PageTemplate() {
       }
 
     const handleSubmit = async() => {
-        const payload = {language: "cpp", code};
+        const payload = {language: "cpp", code, pid: problemId};
         try {
             const response = await submitCode(payload);
             console.log(response);
-            setOutput(response.output);
+            setVerdict(response.output);
         } catch (error) {
             console.log("Error in submitting code", error.message);
         }
+    }
 
+    const handleRun = async() => {
+        const payload = {language: "cpp", code, input};
+        console.log(payload)
+        try {
+            const response = await runCode(payload);
+            setOutput(response.output);
+        } catch (error) {
+            console.log("Error in running code", error.message);
+        }
     }
 
     return (
@@ -61,6 +74,10 @@ export function PageTemplate() {
                             </div>
                             <div className="problem-statement-description">
                                 <p>{problem.statement?.description ?? 'No description available'}</p>
+                            </div>
+                            <h4>Constraints:</h4>
+                            <div className="problem-statement-constraint">
+                                <p>{problem.statement?.constraints ?? 'No constraints available'}</p>
                             </div>
                         </div>
                     </div>
@@ -79,7 +96,10 @@ export function PageTemplate() {
                                 <div className="input-box-wrapper">
                                     <div className="input-box">
                                         <h5>Input</h5>
-                                        <textarea className="code-box-textarea" placeholder="Write your input here..." />
+                                        <textarea className="code-box-textarea" placeholder="Write your input here..." 
+                                        value={input}
+                                        onChange={(e) => {setInput(e.target.value);}}
+                                        />
                                     </div>
                                 </div>
                                 <div className="output-box-wrapper">
@@ -95,14 +115,17 @@ export function PageTemplate() {
                                 <div className="verdict-box-wrapper">
                                     <div className="verdict-box">
                                         <h5>Verdict</h5>
-                                        <div className="output-box-textarea" placeholder="Wait for the verdict..." 
-                                        ></div>
+                                        <div className="output-box-textarea" placeholder="Wait for the verdict...">
+                                            <pre>
+                                                {verdict}
+                                            </pre>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="buttons-wrapper">
-                                <button className="run-button">Run</button>
+                                <button onClick={handleRun} className="run-button">Run</button>
                                 <button onClick={handleSubmit} className="submit-button">Submit</button>
                             </div>
                         </div>
