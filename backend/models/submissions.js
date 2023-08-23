@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const submissionSchema = new mongoose.Scheme({
+const submissionSchema = new mongoose.Schema({
     problem_id: {
         type: Number,
         required: true,

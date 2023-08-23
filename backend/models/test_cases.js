@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const testCases = new mongoose.Scheme({
+const testCases = new mongoose.Schema({
     problem_id: {
         type: Number,
         required: true,
