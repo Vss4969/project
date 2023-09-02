@@ -12,7 +12,7 @@ import session from 'express-session';
 app.use(cors());
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
+ 
 //Session Initialization
 app.use(cookieParser());
 app.use(session({
