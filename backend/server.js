@@ -22,8 +22,8 @@ app.use(session({
 }));
 
 //using router to navigate
-app.use('/', router);
 app.use('/user', userRouter);
+app.use('/', router);
 
 DBConnection();
 

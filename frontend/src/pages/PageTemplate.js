@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getProblemDetails, submitCode, runCode} from '../service/api';
-
+import { getProblemDetails, SubmitCode, RunCode} from '../service/api';
+import { useAuthContext } from '../hooks/useAuthContext'; // Assuming this is your auth context
 import { useParams, useNavigate } from 'react-router-dom';
 
 export function PageTemplate() {
@@ -12,19 +12,8 @@ export function PageTemplate() {
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     const [verdict, setVerdict] = useState('');
-    // const [isAuth, setIsAuth] = useState(false);
 
-    // useEffect(() => {
-    //     async function checkAuth() {
-    //         try {
-    //             const response = await checkAuthentication();
-    //             setIsAuth(response.success);
-    //         } catch (error) {
-    //             console.log("Error in checking authentication", error.message);
-    //         }
-    //     }
-    //     checkAuth();
-    // }, []);
+    const { user } = useAuthContext();
 
     useEffect(() => {
         async function fetchProblemDetails() {
@@ -55,16 +44,10 @@ export function PageTemplate() {
         return null; // or any placeholder until redirection occurs
       }
 
-    const handleSubmit = async() => {
-        // Check if the user is authenticated before submitting the code
-        // if (!isAuth) {
-        //     navigate('/login');
-        //     return;
-        // }
-
-        const payload = {language: "cpp", code, pid: problemId};
+    const handleSubmit = async () => {
+        const payload = { language: "cpp", code, pid: problemId };
         try {
-            const response = await submitCode(payload);
+            const response = await SubmitCode(payload, user); // Pass the user object as an argument
             console.log(response);
             setVerdict(response.output);
         } catch (error) {
@@ -72,17 +55,11 @@ export function PageTemplate() {
         }
     }
 
-    const handleRun = async() => {
-        // Check if the user is authenticated before running the code
-        // if (!isAuth) {
-        //     navigate('/login');
-        //     return;
-        // }
-
-        const payload = {language: "cpp", code, input};
+    const handleRun = async () => {
+        const payload = { language: "cpp", code, input };
         console.log(payload)
         try {
-            const response = await runCode(payload);
+            const response = await RunCode(payload, user); // Pass the user object as an argument
             setOutput(response.output);
         } catch (error) {
             console.log("Error in running code", error.message);

@@ -1,4 +1,5 @@
 import axios from 'axios';
+// import { useAuthContext } from '../hooks/useAuthContext';
 
 const API_URI = 'http://localhost:8000';
 
@@ -21,10 +22,17 @@ export const getProblemDetails = async (problemId) => {
     }
 };
 
-export const submitCode = async (payload) => {
+export const SubmitCode = async (payload, user) => {
+    if (!user) {
+        throw new Error("You must be logged in to submit code");
+    }
     try {
-        console.log("payload: ", payload);        
-        const response = await axios.post(`${API_URI}/submit`, payload);
+        console.log("payload: ", payload);
+        const response = await axios.post(`${API_URI}/submit`, payload, {
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            }
+        });
         console.log("response: ", response);
         return response.data;
     } catch (error) {
@@ -32,14 +40,34 @@ export const submitCode = async (payload) => {
     }
 }
 
-export const runCode = async (payload) => {
+export const RunCode = async (payload, user) => {
+    if (!user) {
+        throw new Error("You must be logged in to run code");
+    }
     try {
-        const response = await axios.post(`${API_URI}/run`, payload);
+        const response = await axios.post(`${API_URI}/run`, payload, {
+            headers: {
+                'Authorization': `Bearer ${user.token}`,
+            }
+        });
+        console.log("response: ", response);
         return response.data;
     } catch (error) {
         console.log("Error while calling APIr", error.message);
     }
 }
+
+// export const RunCode = async (payload, user) => {
+//     if (!user) {
+//         throw new Error("You must be logged in to submit code");
+//     }
+//     try {
+//         const response = await axios.post(`${API_URI}/run`, payload);
+//         return response.data;
+//     } catch (error) {
+//         console.log("Error while calling APIr", error.message);
+//     }
+// }
 
 export const userRegister = async (payload) => {
     try {
