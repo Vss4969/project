@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 import { getProblemDetails, SubmitCode, RunCode} from '../service/api';
 import { useAuthContext } from '../hooks/useAuthContext'; // Assuming this is your auth context
 import { useParams, useNavigate } from 'react-router-dom';
+import AceEditor from 'react-ace';
+
+// Import the Ace editor library
+
+import 'ace-builds/src-noconflict/mode-c_cpp';
+import 'ace-builds/src-noconflict/theme-twilight';
 
 export function PageTemplate() {
     const { problemId } = useParams();
@@ -15,12 +21,32 @@ export function PageTemplate() {
 
     const { user } = useAuthContext();
 
+    // // Move this useEffect to the top
+    // useEffect(() => {
+    //     // Initialize the Ace editor when the component mounts
+    //     const editor = ace.edit("code-box");
+    //     editor.setTheme("ace/theme/twilight");
+    //     editor.getSession().setMode("ace/mode/c_cpp");
+    //     editor.setValue("// Write your code here");
+    //     editor.clearSelection();
+
+    //     // Listen for changes in the editor content and update the 'code' state
+    //     editor.getSession().on('change', function () {
+    //         setCode(editor.getValue());
+    //     });
+
+    //     // Cleanup when the component unmounts
+    //     return () => {
+    //         editor.destroy();
+    //     }
+    // }, []);
+
     useEffect(() => {
         async function fetchProblemDetails() {
             try {
                 const response = await getProblemDetails(problemId);
                 setProblem(response);
-                console.log(response);
+                // console.log(response);
             } catch (error) {
                 setProblem(null); // Set problem to null in case of error
             }
@@ -66,6 +92,7 @@ export function PageTemplate() {
         }
     }
 
+
     return (
         <>
             <div className="problem-page-wrapper">
@@ -86,13 +113,27 @@ export function PageTemplate() {
                     </div>
                     <div className="problem-simulation-container">
                         <div className="code-box-wrapper">
-                            <div className="code-box">
+                            {/* <div className="code-box">
                                 <h4>Code</h4>
                                 <textarea className="code-box-textarea" placeholder="Write your code here..." 
                                 value={code} 
                                 onChange={(e) => {setCode(e.target.value);}}
                                 />
-                            </div>
+                            </div> */}
+                                <AceEditor
+                                    className="code-box"
+                                    mode="c_cpp"
+                                    theme="twilight"
+                                    name="code-box"
+                                    value={code}
+                                    onChange={(newCode) => setCode(newCode)}
+                                    fontSize={14}
+                                    editorProps={{ $blockScrolling: true }}
+                                    height='100%'
+                                    width='100%'
+                                />
+                            
+                            
                         </div>
                         <div className="code-simulation-container">
                             <div className="boxes-wrapper">
@@ -103,6 +144,16 @@ export function PageTemplate() {
                                         value={input}
                                         onChange={(e) => {setInput(e.target.value);}}
                                         />
+                                        {/* <AceEditor
+                                            mode="text"
+                                            theme="twilight"
+                                            name="input-box"
+                                            value={input}
+                                            onChange={(newInput) => setInput(newInput)}
+                                            fontSize={14}
+                                            editorProps={{ $blockScrolling: true }}
+                                            
+                                        /> */}
                                     </div>
                                 </div>
                                 <div className="output-box-wrapper">
