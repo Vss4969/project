@@ -1,0 +1,47 @@
+/* Navbar.css */
+nav {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 100px;
+  margin-right: 100px;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  padding: 5px 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+}
+
+li {
+  margin-right: 30px;
+}
+
+/* Style for active links */
+.active {
+  background-color: white;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.navbar {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  padding: 5px 10px;
+  font-style: normal;
+}
+
+.logout {
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+  color: #000;
+  padding: 5px 10px;
+  font-style: normal;
+  cursor: pointer;
+}

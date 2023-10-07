@@ -7,26 +7,24 @@ import Signup from './pages/signup';
 import Login from './pages/login';
 import Editor from './pages/editor';
 import { Submissions } from './pages/submissions';
-import { useLogout } from './hooks/useLogout';
+// import { useLogout } from './hooks/useLogout';
 import { useAuthContext } from './hooks/useAuthContext';
+import Navbar from './components/Navbar';
 
 const response = await getList({});
 console.log(response);
 
 function Problem() {
-  const {logout} = useLogout();
+  // const {logout} = useLogout();
   const {user} = useAuthContext();
 
-  const handleClick = () => {
-    logout();
-  };
+  // const handleClick = () => {
+  //   logout();
+  // };
 
   return (
     <>
-    {user && ( <div>
-      <div>{user.userId}</div>
-      <button onClick={handleClick}>Logout</button>
-     </div>)}
+      <Navbar />
       <Routes>
         <Route path='/' element={<ProblemList/>}/>
         <Route path='/page_not_found' element={<PageNotFound/>}></Route>

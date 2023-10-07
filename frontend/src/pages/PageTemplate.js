@@ -1,45 +1,29 @@
-import { useEffect, useState } from 'react';
-import { getProblemDetails, SubmitCode, RunCode} from '../service/api';
+import React, { useEffect, useState } from 'react';
+import { getProblemDetails, SubmitCode, RunCode } from '../service/api';
 import { useAuthContext } from '../hooks/useAuthContext'; // Assuming this is your auth context
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import AceEditor from 'react-ace';
-
-// Import the Ace editor library
 
 import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/theme-twilight';
+import 'ace-builds/src-noconflict/theme-chrome';
 
 export function PageTemplate() {
     const { problemId } = useParams();
     const [problem, setProblem] = useState({});
     const navigate = useNavigate();
 
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(localStorage.getItem('userCode') || '');
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     const [verdict, setVerdict] = useState('');
 
     const { user } = useAuthContext();
 
-    // // Move this useEffect to the top
-    // useEffect(() => {
-    //     // Initialize the Ace editor when the component mounts
-    //     const editor = ace.edit("code-box");
-    //     editor.setTheme("ace/theme/twilight");
-    //     editor.getSession().setMode("ace/mode/c_cpp");
-    //     editor.setValue("// Write your code here");
-    //     editor.clearSelection();
-
-    //     // Listen for changes in the editor content and update the 'code' state
-    //     editor.getSession().on('change', function () {
-    //         setCode(editor.getValue());
-    //     });
-
-    //     // Cleanup when the component unmounts
-    //     return () => {
-    //         editor.destroy();
-    //     }
-    // }, []);
+    // Save code to local storage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('userCode', code);
+    }, [code]);
 
     useEffect(() => {
         async function fetchProblemDetails() {
@@ -68,7 +52,25 @@ export function PageTemplate() {
     if (problem === null) {
         navigate('/page_not_found');
         return null; // or any placeholder until redirection occurs
-      }
+    }
+
+    const handleFileUpload = (e) => {
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const fileContent = e.target.result;
+                // Check the file extension
+                const fileExtension = selectedFile.name.split('.').pop();
+                if (fileExtension === 'cpp' || fileExtension === 'c++') {
+                    setCode(fileContent);
+                } else {
+                    console.log('Invalid file type. Please upload a .cpp or .c++ file.');
+                }
+            };
+            reader.readAsText(selectedFile);
+        }
+    };
 
     const handleSubmit = async () => {
         const payload = { language: "cpp", code, pid: problemId };
@@ -97,6 +99,16 @@ export function PageTemplate() {
         <>
             <div className="problem-page-wrapper">
                 <div className="problem-page-container">
+                    {!user && 
+                        <div className="problem-page-login">
+                            <i>You need to {' '}
+                            <Link to="/login">Login</Link> /{' '}
+                            <Link to="/signup">Sign up</Link> to run or submit
+                            </i>
+                            <hr></hr>
+                        </div>
+                    }
+
                     <div className="problem-statement-wrapper">
                         <div className="problem-statement">
                             <div className="problem-statement-title">
@@ -116,53 +128,43 @@ export function PageTemplate() {
                             {/* <div className="code-box">
                                 <h4>Code</h4>
                                 <textarea className="code-box-textarea" placeholder="Write your code here..." 
-                                value={code} 
+                                value={code}
                                 onChange={(e) => {setCode(e.target.value);}}
                                 />
                             </div> */}
-                                <AceEditor
-                                    className="code-box"
-                                    mode="c_cpp"
-                                    theme="twilight"
-                                    name="code-box"
-                                    value={code}
-                                    onChange={(newCode) => setCode(newCode)}
-                                    fontSize={14}
-                                    editorProps={{ $blockScrolling: true }}
-                                    height='100%'
-                                    width='100%'
-                                />
-                            
-                            
+                            <AceEditor
+                                className="code-box"
+                                mode="c_cpp"
+                                theme="chrome"
+                                name="code-box"
+                                value={code}
+                                onChange={(newCode) => setCode(newCode)}
+                                fontSize={14}
+                                editorProps={{ $blockScrolling: true }}
+                                height='100%'
+                                width='100%'
+                            />
+
+
                         </div>
                         <div className="code-simulation-container">
                             <div className="boxes-wrapper">
                                 <div className="input-box-wrapper">
                                     <div className="input-box">
                                         <h5>Input</h5>
-                                        <textarea className="code-box-textarea" placeholder="Write your input here..." 
-                                        value={input}
-                                        onChange={(e) => {setInput(e.target.value);}}
-                                        />
-                                        {/* <AceEditor
-                                            mode="text"
-                                            theme="twilight"
-                                            name="input-box"
+                                        <textarea className="code-box-textarea" placeholder="Write your input here..."
                                             value={input}
-                                            onChange={(newInput) => setInput(newInput)}
-                                            fontSize={14}
-                                            editorProps={{ $blockScrolling: true }}
-                                            
-                                        /> */}
+                                            onChange={(e) => { setInput(e.target.value); }}
+                                        />
                                     </div>
                                 </div>
                                 <div className="output-box-wrapper">
                                     <div className="output-box">
                                         <h5>Output</h5>
                                         <div className="output-box-textarea" placeholder="Wait for the output..." >
-                                        <pre>
-                                            {output}
-                                        </pre>
+                                            <pre>
+                                                {output}
+                                            </pre>
                                         </div>
                                     </div>
                                 </div>
@@ -179,14 +181,16 @@ export function PageTemplate() {
                             </div>
 
                             <div className="buttons-wrapper">
-                                <button onClick={handleRun} className="run-button">Run</button>
-                                <button onClick={handleSubmit} className="submit-button">Submit</button>
+                                {/* <button onClick={handleFileUpload} className="button">Upload</button> */}
+                                <input type="file" onChange={handleFileUpload} className="buttons"/>
+                                <button onClick={handleRun} className="buttons">Run</button>
+                                <button onClick={handleSubmit} className="buttons">Submit</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            
+
         </>
     )
 }
