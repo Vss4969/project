@@ -24,14 +24,14 @@ function Problem() {
 
   return (
     <>
-      <Navbar />
+      <Navbar/>
       <Routes>
         <Route path='/' element={<ProblemList/>}/>
         <Route path='/page_not_found' element={<PageNotFound/>}></Route>
         <Route path='/problem/:problemId' element={<PageTemplate/>}/>
         <Route path='/signup' element={!user ? <Signup/> : <Navigate to="/" />}></Route>
         <Route path='/login' element={!user ? <Login/> : <Navigate to="/" />}></Route>
-        <Route path='/submissions' element={<Submissions/>}></Route>
+        <Route path='/submissions' element={user ? <Submissions/> : <Navigate to="/" />}></Route>
         <Route path='/editor' element={<Editor/>}></Route>
       </Routes>
     </>

@@ -17,6 +17,7 @@ export function PageTemplate() {
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
     const [verdict, setVerdict] = useState('');
+    const [selectedLanguage, setSelectedLanguage] = useState('cpp');
 
     const { user } = useAuthContext();
 
@@ -61,19 +62,20 @@ export function PageTemplate() {
             reader.onload = (e) => {
                 const fileContent = e.target.result;
                 // Check the file extension
-                const fileExtension = selectedFile.name.split('.').pop();
-                if (fileExtension === 'cpp' || fileExtension === 'c++') {
-                    setCode(fileContent);
-                } else {
-                    console.log('Invalid file type. Please upload a .cpp or .c++ file.');
-                }
+                // const fileExtension = selectedFile.name.split('.').pop();
+                // if (fileExtension === 'cpp' || fileExtension === 'c++') {
+                //     setCode(fileContent);
+                // } else {
+                //     console.log('Invalid file type. Please upload a .cpp or .c++ file.');
+                // }
+                setCode(fileContent);
             };
             reader.readAsText(selectedFile);
         }
     };
 
     const handleSubmit = async () => {
-        const payload = { language: "cpp", code, pid: problemId };
+        const payload = { language: selectedLanguage, code, pid: problemId };
         try {
             const response = await SubmitCode(payload, user); // Pass the user object as an argument
             console.log(response);
@@ -84,7 +86,7 @@ export function PageTemplate() {
     }
 
     const handleRun = async () => {
-        const payload = { language: "cpp", code, input };
+        const payload = { language: selectedLanguage, code, input };
         console.log(payload)
         try {
             const response = await RunCode(payload, user); // Pass the user object as an argument
@@ -125,13 +127,23 @@ export function PageTemplate() {
                     </div>
                     <div className="problem-simulation-container">
                         <div className="code-box-wrapper">
-                            {/* <div className="code-box">
+                            {/* <textarea className="code-box-textarea" placeholder="Write your code here..." 
+                            value={code}
+                            onChange={(e) => {setCode(e.target.value);}}
+                            /> */}
+                            <div className='title-bar'>
                                 <h4>Code</h4>
-                                <textarea className="code-box-textarea" placeholder="Write your code here..." 
-                                value={code}
-                                onChange={(e) => {setCode(e.target.value);}}
-                                />
-                            </div> */}
+                                <div className='language-selector'>
+                                    <select
+                                        value={selectedLanguage}
+                                        onChange={(e) => setSelectedLanguage(e.target.value)}
+                                    >
+                                        <option value="c">C</option>
+                                        <option value="cpp">C++</option>
+                                        <option value="py">Python3</option>
+                                    </select>
+                                </div>
+                            </div>
                             <AceEditor
                                 className="code-box"
                                 mode="c_cpp"
@@ -144,8 +156,6 @@ export function PageTemplate() {
                                 height='100%'
                                 width='100%'
                             />
-
-
                         </div>
                         <div className="code-simulation-container">
                             <div className="boxes-wrapper">

@@ -11,10 +11,14 @@ export const getOutput = async (req, res) => {
         return res.status(404).json({success: false, error: "Input not found"});
     }
     try {
-
-        const {filePath, inpPath} = await generateFile('cpp', code, input);
-        const execPath = await compileFile(filePath);
-        const output = await runFile(execPath, inpPath);
+        const {filePath, inpPath} = await generateFile(language, code, input);
+        // Only compile for non-interpreted languages
+        let execPath = filePath;
+        if(language==='cpp' || language==='c'){
+            execPath = await compileFile(language, filePath);
+        }
+        // Execute for all languages
+        const output = await runFile(language, execPath, inpPath);
         res.json({filePath, output});
     } catch (error) {
         console.log("Error while compiling: ", error.message);

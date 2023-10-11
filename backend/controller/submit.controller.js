@@ -11,7 +11,10 @@ export const getVerdict = async (req, res) => {
     try {
         const {filePath} = await generateFile('cpp', code, undefined);
         console.log("File generated successfully");
-        const execPath = await compileFile(filePath);
+        let execPath = filePath;
+        if(language==='cpp' || language==='c'){
+            execPath = await compileFile(language, filePath);
+        }
         console.log("File compiled successfully");
         const inputsFolderPath = `./data/problems/${pid}/inputs`;
         const outputsFolderPath = `./data/problems/${pid}/outputs`;
@@ -25,7 +28,7 @@ export const getVerdict = async (req, res) => {
                 const inputPath = `${inputsFolderPath}/${inputFile}`;
                 const outputPath = `${outputsFolderPath}/output${inputFile.match(/\d+/)[0]}.txt`;
 
-                const output = await runFile(execPath, inputPath);
+                const output = await runFile(language, execPath, inputPath);
                 const expectedOutput = await fs.readFile(outputPath, 'utf-8');
 
                 if (output.trim() !== expectedOutput.trim()) {
